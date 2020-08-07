@@ -89,7 +89,7 @@ extension ViewController: ARCoachingOverlayViewDelegate {
     }
 
     func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
-        print("coaching finished")
+        print("Info: coaching finished")
         startBarcodeDetection()
     }
 }

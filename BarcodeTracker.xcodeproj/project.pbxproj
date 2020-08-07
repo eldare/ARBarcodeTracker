@@ -12,6 +12,7 @@
 		788E68FD24DD900A0074FC43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 788E68FC24DD900A0074FC43 /* Assets.xcassets */; };
 		788E690024DD900A0074FC43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 788E68FE24DD900A0074FC43 /* LaunchScreen.storyboard */; };
 		788E690C24DDC0880074FC43 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E690B24DDC0880074FC43 /* ViewController.swift */; };
+		788E690E24DDC1E50074FC43 /* BarcodeDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788E690D24DDC1E50074FC43 /* BarcodeDetector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		788E68FF24DD900A0074FC43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		788E690124DD900A0074FC43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		788E690B24DDC0880074FC43 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		788E690D24DDC1E50074FC43 /* BarcodeDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarcodeDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				788E68F324DD90070074FC43 /* AppDelegate.swift */,
 				788E690B24DDC0880074FC43 /* ViewController.swift */,
+				788E690D24DDC1E50074FC43 /* BarcodeDetector.swift */,
 				788E68F924DD90070074FC43 /* Main.storyboard */,
 				788E68FC24DD900A0074FC43 /* Assets.xcassets */,
 				788E68FE24DD900A0074FC43 /* LaunchScreen.storyboard */,
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				788E690C24DDC0880074FC43 /* ViewController.swift in Sources */,
+				788E690E24DDC1E50074FC43 /* BarcodeDetector.swift in Sources */,
 				788E68F424DD90070074FC43 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
