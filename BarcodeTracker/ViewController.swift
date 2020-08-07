@@ -27,6 +27,7 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setupAndStartCoachingOverlay()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,6 +64,33 @@ extension ViewController {
 extension ViewController {
     private func startBarcodeDetection() {
         // TODO: incomplete - *ELDAR* -
+    }
+}
+
+extension ViewController: ARCoachingOverlayViewDelegate {
+    private func setupAndStartCoachingOverlay() {
+        let coachingOverlay = ARCoachingOverlayView()
+
+        coachingOverlay.session = sceneView.session
+        coachingOverlay.delegate = self
+
+        coachingOverlay.translatesAutoresizingMaskIntoConstraints = false
+        sceneView.addSubview(coachingOverlay)
+
+        NSLayoutConstraint.activate([
+            coachingOverlay.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            coachingOverlay.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            coachingOverlay.widthAnchor.constraint(equalTo: view.widthAnchor),
+            coachingOverlay.heightAnchor.constraint(equalTo: view.heightAnchor)
+        ])
+
+        coachingOverlay.activatesAutomatically = true
+        coachingOverlay.goal = .verticalPlane
+    }
+
+    func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
+        print("coaching finished")
+        startBarcodeDetection()
     }
 }
 
