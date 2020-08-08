@@ -79,7 +79,6 @@ class ViewModel {
         plane.materials = [material]
 
         let node = SCNNode()
-//        node.transform = SCNMatrix4MakeRotation(-.pi / 2, 0, 0, 1)
         node.transform = SCNMatrix4Identity
         node.geometry = plane
         node.position = worldCoord

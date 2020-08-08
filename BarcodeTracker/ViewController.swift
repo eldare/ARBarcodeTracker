@@ -10,9 +10,24 @@ import UIKit
 import SceneKit
 import ARKit
 
+protocol ViewProtocol: class {
+    func addNode(_ node: SCNNode)
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet var sceneView: ARSCNView!
+
+    lazy private var viewModel: ViewModelProtocol = {
+        return ViewModel(delegate: self)
+    }()
+    private var cycleCounter = 0
+    private let processOnceEveryNumberOfCycles = 20
+    private var isReadyToProcess = false {
+        didSet {
+            print(isReadyToProcess ? "ready to start processing" : "waiting to start processing")
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,9 +76,21 @@ extension ViewController {
     }
 }
 
-extension ViewController {
-    private func startBarcodeDetection() {
-        // TODO: incomplete - *ELDAR* -
+extension ViewController: ARSessionDelegate {
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        guard isReadyToProcess else { return }
+        guard cycleCounter >= processOnceEveryNumberOfCycles else {
+            cycleCounter += 1
+            return
+        }
+        cycleCounter = 0
+        viewModel.process(arFrame: frame)
+    }
+}
+
+extension ViewController: ViewProtocol {
+    func addNode(_ node: SCNNode) {
+        sceneView.scene.rootNode.addChildNode(node)
     }
 }
 
@@ -90,12 +117,6 @@ extension ViewController: ARCoachingOverlayViewDelegate {
 
     func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
         print("Info: coaching finished")
-        startBarcodeDetection()
-    }
-}
-
-extension ViewController: ARSessionDelegate {
-    func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        // TODO: incomplete - *ELDAR* -
+        isReadyToProcess = true
     }
 }
