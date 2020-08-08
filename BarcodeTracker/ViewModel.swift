@@ -46,7 +46,7 @@ class ViewModel {
         // Once we have a valid vertical plane,
         // we can prepare a SceneKit Plane node to be place in the real world.
         newBarcodeFound(payload)
-        let planeNode = preparePlaneNode(hitTestResult: hitTestResult)
+        let planeNode = preparePlaneNode(hitTestResult: hitTestResult, arFrame: arFrame)
         viewDelegate.addNode(planeNode)
     }
 
@@ -77,7 +77,7 @@ class ViewModel {
         return result
     }
 
-    private func preparePlaneNode(hitTestResult: ARHitTestResult) -> SCNNode {
+    private func preparePlaneNode(hitTestResult: ARHitTestResult, arFrame: ARFrame) -> SCNNode {
         let transform: matrix_float4x4 = hitTestResult.worldTransform
         let worldCoord: SCNVector3 = SCNVector3Make(transform.columns.3.x,
                                                     transform.columns.3.y,
@@ -92,6 +92,9 @@ class ViewModel {
         node.transform = SCNMatrix4Identity
         node.geometry = plane
         node.position = worldCoord
+
+        // align the node to be parallel to the camera
+        node.eulerAngles.y = arFrame.camera.eulerAngles.y
 
         return node
     }
