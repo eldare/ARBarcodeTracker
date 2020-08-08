@@ -21,6 +21,7 @@ class ViewModel {
         return BarcodeDetector(searchCompletion: self.searchCompleted)
     }()
 
+    /// keep track after barcodes to prevent double tracking of the same barcode
     private var knownBarcodes = Set<String>()
 
     init(delegate: ViewProtocol) {
@@ -28,13 +29,22 @@ class ViewModel {
     }
 
     private func searchCompleted(payload: String?, boundingBox: CGRect?, arFrame: ARFrame?) {
+        // 12.
+        // If a barcode was found, make sure it's not one we're already tracking.
         guard let payload = payload, let boundingBox = boundingBox, let arFrame = arFrame else { return }
         guard isNewBarcode(payload) else { return }
 
+        // 13.
+        // For every new detected barcode, we'll convert (flip) it's Vision boundingBox
+        // coordinates to right hand 3D coordinates for ARKit and SceneKit.
+        // The new rect's center will be used to hitTest a vertical plane, because we need Z (Vision is 2D).
         let flippedBoundingBox = flipCoordicates(of: boundingBox)
         let centerPoint = CGPoint(x: flippedBoundingBox.midX, y: flippedBoundingBox.midY)
         guard let hitTestResult = hitTestOnPlane(point: centerPoint, arFrame: arFrame) else { return }
 
+        // 14.
+        // Once we have a valid vertical plane,
+        // we can prepare a SceneKit Plane node to be place in the real world.
         newBarcodeFound(payload)
         let planeNode = preparePlaneNode(hitTestResult: hitTestResult)
         viewDelegate.addNode(planeNode)
@@ -94,6 +104,8 @@ class ViewModel {
 
 extension ViewModel: ViewModelProtocol {
     func process(arFrame: ARFrame) {
+        // 6.
+        // Search for a barcode in the given AR frame
         detector.search(in: arFrame)
     }
 }
